@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppeloffreService } from '../services/appeloffre.service';
-import { formatDate } from '@angular/common';
 import { Location } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Categorie } from '../model/categorie.model';
+
 @Component({
   selector: 'app-addappeloffre',
   templateUrl: './addappeloffre.component.html',
   styleUrls: ['./addappeloffre.component.css']
 })
-export class AddappeloffreComponent implements OnInit{
+export class AddappeloffreComponent implements OnInit {
   newAppelOffre: any = {
     titre: '',
     description: '',
@@ -23,13 +22,15 @@ export class AddappeloffreComponent implements OnInit{
   selectedDocument: File | null = null;
   entrepriseId!: string;
   datelimitesoumissionFormatted: string | null = null;
-  categories: Categorie[] = []; 
+  categories: Categorie[] = [];
+  imagePreview: string | ArrayBuffer | null = null;
+
   constructor(
-    private  appeloffreService: AppeloffreService,
+    private appeloffreService: AppeloffreService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private toastr:ToastrService
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +39,7 @@ export class AddappeloffreComponent implements OnInit{
     });
     this.fetchCategories();
   }
+
   fetchCategories(): void {
     this.appeloffreService.getAllCategories().subscribe({
       next: categories => this.categories = categories,
@@ -48,13 +50,25 @@ export class AddappeloffreComponent implements OnInit{
   onImageSelected(event: any): void {
     if (event.target.files && event.target.files[0]) {
       this.selectedFile = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+      if (this.selectedFile) {
+        reader.readAsDataURL(this.selectedFile);
+      }
     }
   }
+  
 
   onDocumentSelected(event: any): void {
     if (event.target.files && event.target.files[0]) {
       this.selectedDocument = event.target.files[0];
     }
+  }
+
+  triggerFileInput(): void {
+    document.getElementById('fileInput')!.click();
   }
 
   createAppelOffre(): void {

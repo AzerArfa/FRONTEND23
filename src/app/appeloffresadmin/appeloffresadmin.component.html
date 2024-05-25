@@ -11,13 +11,15 @@
             <div class="header-content">
                 <img src="{{ entreprise?.logo ? 'data:image/png;base64,' + entreprise?.logo : 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg' }}" alt="Enterprise Logo" class="enterprise-logo">
                 <div class="enterprise-info">
-                    <h1>{{ entreprise?.name }}</h1>
-                    <p>{{ entreprise?.ville }}</p>
+                    <h1 class="enterprise-title">{{ entreprise?.name }}</h1>
+                    <p class="enterprise-detail">{{ entreprise?.ville }}</p>
                 </div>
-                <button [routerLink]="['/addAppelOffre', entrepriseId]">Créer un appel d'offre</button>
+                <button class="btn btn-custom" [routerLink]="['/addAppelOffre', entrepriseId]">Créer un appel d'offre</button>
             </div>
         </div>
     </header>
+    
+    
     
     <section class="py-5" *ngIf="isLoading">
         <div class="container px-4 px-lg-5 mt-5 text-center">
@@ -36,9 +38,9 @@
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <h5 class="fw-bolder">{{ appeloffre.titre }}</h5>
-                                <p>{{ appeloffre.datelimitesoumission| date }}</p>
+                                <p>{{ appeloffre.datelimitesoumission | date }}</p>
                                 <div>
-                                    <a class="table-link" [routerLink]="['/updateappeloffre',appeloffre.id]">
+                                    <a class="table-link" [routerLink]="['/updateappeloffre', appeloffre.id]">
                                         <span class="fa-stack" style="color: green;">
                                             <i class="fa fa-square fa-stack-2x"></i>
                                             <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
@@ -61,12 +63,13 @@
             </div>
         </div>
     </section>
+    
 
     <hr class="my-4">
 
     <section *ngIf="!isLoading && entreprise?.users">
         <div class="container px-4 px-lg-5 mt-5">
-            <h2 class="text-center mb-4">Users of {{ entreprise?.name }}</h2>
+            <h2 class="text-center mb-4">Utilisateurs de {{ entreprise?.name }}</h2>
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 <div class="col" *ngFor="let user of entreprise?.users">
                     <div class="card user-card">

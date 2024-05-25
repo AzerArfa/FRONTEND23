@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';  // Update the paths according to your setup
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AppeloffreService } from '../services/appeloffre.service';
 import { AuthService } from '../services/auth.service';
@@ -7,6 +7,7 @@ import { UserService } from '../services/user.service';
 import { Entreprise } from '../model/entreprise.model';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-addoffre',
   templateUrl: './addoffre.component.html',
@@ -25,7 +26,8 @@ export class AddoffreComponent implements OnInit {
   selectedDocument: File | null = null;
   isAdmin: boolean = false;
   entreprises: Entreprise[] = [];
-  userid!:Observable<string | null>;
+  userid!: Observable<string | null>;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -33,51 +35,40 @@ export class AddoffreComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private offreService: AppeloffreService,
-    private toastr:ToastrService
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.idAppelOffre = params['id'];
-      this.getAppelOffreById(this.idAppelOffre); 
-      this.isAdmin = this.authService.isAdmin(); 
-      this.loadEnterprisesIfNeeded();
+      this.getAppelOffreById(this.idAppelOffre);
+      this.isAdmin = this.authService.isAdmin();
+      this.loadEnterprises();
     });
   }
 
-  loadEnterprisesIfNeeded() {
-   
-      this.userService.getentreprisesbyuserid(this.authService.getUserInfo().userId).subscribe(
-        data => {
-          this.entreprises = data;  // Ensure that data is properly typed as Entreprise[]
-        },
-        error => {
-          console.error('Error fetching enterprises:', error);
-        }
-      );
-    
+  loadEnterprises() {
+    this.userService.getentreprisesbyuserid(this.authService.getUserInfo().userId).subscribe(
+      data => {
+        this.entreprises = data;
+      },
+      error => {
+        console.error('Error fetching enterprises:', error);
+      }
+    );
   }
 
   getAppelOffreById(id: string): void {
-    if (this.isAdmin) {
-      this.offreService.getAppelOffreById(id).subscribe({
-        next: (appelOffre) => {
-          this.nomAppelOffre = appelOffre.titre;
-        },
-        error: (error) => {
-          console.error('Error fetching AppelOffre for Admin', error);
-        }
-      });
-    } else {
-      this.offreService.getAppelOffreByIdUser(id).subscribe({
-        next: (appelOffre) => {
-          this.nomAppelOffre = appelOffre.titre;
-        },
-        error: (error) => {
-          console.error('Error fetching AppelOffre for User', error);
-        }
-      });
-    }
+    const fetchFunction = this.isAdmin ? this.offreService.getAppelOffreById(id) : this.offreService.getAppelOffreByIdUser(id);
+
+    fetchFunction.subscribe({
+      next: (appelOffre) => {
+        this.nomAppelOffre = appelOffre.titre;
+      },
+      error: (error) => {
+        console.error('Error fetching AppelOffre', error);
+      }
+    });
   }
 
   onDocumentSelected(event: any): void {
@@ -91,53 +82,35 @@ export class AddoffreComponent implements OnInit {
     formData.append('numtel', this.newOffre.numtel);
     formData.append('montant', this.newOffre.montant.toString());
     formData.append('delaisderealisation', this.newOffre.delaisderealisation);
+    formData.append('entrepriseid', this.newOffre.entrepriseid);
+    
     if (this.selectedDocument) {
       formData.append('documentdeproposition', this.selectedDocument, this.selectedDocument.name);
     }
-    
-    // Get the user ID from the Observable
-    
-        if (this.isAdmin && this.newOffre.entrepriseid) {
-          formData.append('entrepriseid', this.newOffre.entrepriseid);
-          this.offreService.createOffreAdmin(this.idAppelOffre, formData).subscribe({
-            next: (response) => {
-              console.log('Admin offer created successfully', response);
-              this.router.navigate(['/home']);
-            },
-            error: (error) => {
-              console.error('Error creating admin offer', error);
-              alert('Failed to create the admin offer. Check console for details.');
-            }
-          });
-        } else {
-          formData.append('entrepriseid', this.newOffre.entrepriseid);
-          this.offreService.createOffre(this.idAppelOffre, formData).subscribe({
-            next: (response) => {
-           
-              console.log('User offer created successfully', response);
-              this.router.navigate(['/home']);
-              this.toastr.success('Création terminé avec succées', "Offre", {
-                timeOut: 5000,
-                closeButton: true,
-                progressBar: true,
-                positionClass: 'toast-top-right',
-              });
-            },
-            error: (error) => {
-              this.toastr.error('Création echoué.', "Offre", {
-                timeOut: 5000,
-                closeButton: true,
-                progressBar: true,
-                positionClass: 'toast-top-right',
-              });
-              console.error('Error creating user offer', error);
-              alert('Failed to create the user offer. Check console for details.');
-            }
-          });
-        }
-      
-   
-  }
-  
 
+    const createFunction = this.isAdmin ? this.offreService.createOffreAdmin(this.idAppelOffre, formData) : this.offreService.createOffre(this.idAppelOffre, formData);
+
+    createFunction.subscribe({
+      next: (response) => {
+        console.log('Offer created successfully', response);
+        this.router.navigate(['/home']);
+        this.toastr.success('Création terminé avec succès', 'Offre', {
+          timeOut: 5000,
+          closeButton: true,
+          progressBar: true,
+          positionClass: 'toast-top-right',
+        });
+      },
+      error: (error) => {
+        this.toastr.error('Création échouée.', 'Offre', {
+          timeOut: 5000,
+          closeButton: true,
+          progressBar: true,
+          positionClass: 'toast-top-right',
+        });
+        console.error('Error creating offer', error);
+        alert('Failed to create the offer. Check console for details.');
+      }
+    });
+  }
 }

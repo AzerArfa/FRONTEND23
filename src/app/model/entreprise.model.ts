@@ -10,7 +10,8 @@ export class Entreprise {
     siegesociale!: string;
     codeTVA!: string;
     logo: any; 
+    logoUrl?: string; // Add this line
     users!: User[];
-    codetvadocument!:string;
-    status!:string;
+    codetvadocument!: string;
+    status!: string;
 }

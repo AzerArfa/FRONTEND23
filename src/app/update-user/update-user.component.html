@@ -10,6 +10,11 @@
     <div class="form-container">
       <h2>Modifier votre profile</h2>
       <form (ngSubmit)="updateUser()">
+        <div class="input-box" *ngIf="currentUser.imgUrl" class="image-preview" (click)="openFileInput()">
+          <input type="file" (change)="onFileSelected($event)" name="img" class="form-control" style="opacity: 0;">
+          <img class="user-image" [src]="userImagePreview" alt="User Image">
+        </div>
+        
         <div class="input-box">
           <input type="text" placeholder="Email" [(ngModel)]="currentUser.email" name="email" class="form-control" required>
         </div>
@@ -28,9 +33,10 @@
         <div class="input-box">
           <input type="text" placeholder="Lieu de Naissance" [(ngModel)]="currentUser.lieunais" name="lieunais" class="form-control" required>
         </div>
-        <div class="input-box">
-          <input type="file" (change)="onFileSelected($event)" name="img" class="form-control">
-        </div>
+        <!-- <div class="input-box">
+        
+        </div> -->
+        
         <button type="submit" class="btn">Modifier</button>
       </form>
     </div>

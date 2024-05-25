@@ -7,10 +7,10 @@ body {
     height: 100vh;
     margin: 0;
     padding-top: 70px; /* Adjust this value based on the height of your navbar */
-}
-
-.btn-primary {
-    background-color: #306090; /* Green */
+  }
+  
+  .btn-primary {
+    background-color: #007BFF;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -22,70 +22,107 @@ body {
     cursor: pointer;
     border-radius: 8px;
     transition: background 0.3s, color 0.3s;
-}
-
-.btn-primary:hover {
-    background-color: #4c7ba9; /* Darker green */
-}
-.container {
+  }
+  
+  .btn-primary:hover {
+    background-color: #4c7ba9;
+  }
+  
+  .container {
     width: 95%;
-    max-width: 800px;
+    max-width: 1200px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.offer-container, .entreprise-info {
+    gap: 20px;
+  }
+  
+  .details-container {
+    width: 100%;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    text-align: center;
-}
-
-.image-section {
-    margin-top: 20px;
-}
-
-.offer-image {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
+    border: 3px solid #ddd; /* Added border for stroke effect */
+  }
+  
+  .header-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .image-section {
+    flex-shrink: 0;
+  }
+  
+  .offer-image {
+    width: 200px;
+    height: 200px;
     border-radius: 8px;
-}
-
-.offer-title {
-    font-size: 24px;
+    object-fit: cover;
+  }
+  
+  .offer-details-section {
+    flex-grow: 1;
+  }
+  
+  .offer-title {
+    font-size: 2rem;
     color: #333;
     margin-bottom: 10px;
-}
-
-.details-section {
-    font-size: 16px;
-    margin-top: 20px;
-}
-
-.offer-description, .location-info {
+    text-align: center;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    color: #306090;
     margin-bottom: 10px;
-}
-
-.location-info {
-    display: block;
+    border-bottom: 2px solid #306090;
+    padding-bottom: 5px;
+  }
+  
+  .offer-description, .location-info {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .location-info {
     color: #306090;
     font-weight: bold;
-}
-
-.info-table {
+  }
+  
+  .entreprise-info {
+    margin-top: 20px;
+    border-top: 1px solid #ddd; /* Added border for stroke effect */
+    padding-top: 20px;
+  }
+  
+  .info-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.info-table th, .info-table td {
-    padding: 8px;
+    margin-top: 10px;
+  }
+  
+  .info-table th, .info-table td {
+    padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-}
+  }
+  
+  .download-link {
+    display: inline-block;
+    color: #007BFF;
+    margin-top: 10px;
+    font-size: 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .download-link:hover {
+    color: #4c7ba9;
+    cursor: pointer;
+  }
+  

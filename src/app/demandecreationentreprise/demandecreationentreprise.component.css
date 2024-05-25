@@ -1,114 +1,123 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f0f8ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f8ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
 .full-screen-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
+
 .input-box.half-width {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .input-box.half-width > .image-upload-container {
-    flex: 0 0 49%; /* Adjusts each container to take roughly half the space minus margin */
-    display: block; /* Makes sure label and input behave correctly inside flex container */
-  }
-  
-  .input-box.half-width > .image-upload-container:last-child {
-    margin-right: 0; /* Removes margin on the last input to fit correctly */
-  }
-  
-  .image-upload-container input[type="file"] {
-    opacity: 0;
-    width: 0.1px;
-    height: 0.1px;
-    position: absolute;
-    z-index: -1;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-box.half-width > .image-upload-container {
+  flex: 0 0 49%; /* Adjusts each container to take roughly half the space minus margin */
+  display: block; /* Makes sure label and input behave correctly inside flex container */
+}
+
+.input-box.half-width > .image-upload-container:last-child {
+  margin-right: 0; /* Removes margin on the last input to fit correctly */
+}
+
+.image-upload-container input[type="file"] {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+  z-index: -1;
+}
+
 .form-container {
-    width: 90%;
-    max-width: 800px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
+  width: 90%;
+  max-width: 800px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
 }
 
 .h2-container h2 {
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 22px;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 22px;
 }
 
 .input-box {
-    margin-bottom: 10px;
-    display: flex;
+  margin-bottom: 10px;
+  display: flex;
 }
 
 /* Targets only the name input and file inputs for full width */
 .input-box.full-width,
 .image-upload-container {
-    width: 100%;
+  width: 100%;
 }
 
 .input-box input,
 .image-upload-container input {
-    flex: 1; /* Allows input to expand fully within the .input-box */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+  flex: 1; /* Allows input to expand fully within the .input-box */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 /* Aligns half-width inputs side by side */
 .input-box.half-width {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .input-box.half-width input {
-    flex: 0 0 49%; /* Adjusts each input to take roughly half the space minus margin */
-    margin-right: 2%; /* Space between two inputs */
+  flex: 0 0 49%; /* Adjusts each input to take roughly half the space minus margin */
+  margin-right: 2%; /* Space between two inputs */
 }
 
 .input-box.half-width:last-child input {
-    margin-right: 0; /* Removes margin on the last input to fit correctly */
+  margin-right: 0; /* Removes margin on the last input to fit correctly */
 }
 
 .image-upload-label {
-    display: block;
-    padding: 10px;
-    background-color: #f1f1f1;
-    border: 2px dashed #ccc;
-    border-radius: 5px;
-    cursor: pointer;
+  display: block;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-
-
 .btn {
-    width: 100%;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .btn:hover {
-    background-color: #45a049;
+  background-color: #45a049;
+}
+
+/* Styles for the checkmark icon and input borders */
+.checkmark {
+  color: green;
+  margin-left: 10px;
+}
+
+.input-box input[type="text"]:valid {
+  border: 2px solid green;
 }

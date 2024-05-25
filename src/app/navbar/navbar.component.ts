@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { Subscription } from 'rxjs';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -13,8 +12,8 @@ import { ChangeDetectorRef } from '@angular/core';
 export class NavbarComponent implements OnInit, OnDestroy {
   userInfo: any;
   isloggedIn: boolean = false;
+  isSuperAdmin: boolean = false;
   private userInfoSubscription?: Subscription;
-  isSuperAdmin!: boolean;
 
   constructor(
     public authService: AuthService, 
@@ -26,6 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.refreshNavbar();
 
+    // Subscribe to changes in user info and login status
     this.authService.userInfo.subscribe(userInfo => {
       this.userInfo = userInfo;
       console.log('Navbar user info updated:', this.userInfo);
@@ -37,13 +37,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.cdr.detectChanges(); // Manually trigger change detection
     });
 
-    this.userService.userUpdated.subscribe(updatedUser => {
-      console.log(updatedUser);
-      this.userInfo = updatedUser;
-      this.cdr.detectChanges(); // Manually trigger change detection
-      console.log('Navbar user updated:', this.userInfo);
-    });
-
     // Initialize with current state
     this.userInfo = this.authService.getUserInfo();
     this.isloggedIn = this.authService.isloggedInState;
@@ -53,14 +46,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
   refreshNavbar(): void {
     this.userInfo = this.authService.getUserInfo();
     this.isloggedIn = this.authService.isloggedInState;
+    this.isSuperAdmin = this.authService.isSuperAdmin(); 
     console.log('Navbar refreshed:', this.userInfo);
     this.cdr.detectChanges(); // Manually trigger change detection
   }
 
-  onLogout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  onLogout() {
+    this.authService.logout();  // Assuming logout method clears the local storage or session
+    this.isloggedIn = false;
+    this.isSuperAdmin = false;  // Reset superadmin role
+    this.router.navigate(['/login']);  // Redirect to login page or home page after logout
   }
+  
 
   ngOnDestroy(): void {
     if (this.userInfoSubscription) {

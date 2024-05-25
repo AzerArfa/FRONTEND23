@@ -1,38 +1,40 @@
 <div class="full-screen-container">
-    <div class="form-container">
-      <h2>Postuler dans "{{ nomAppelOffre }}"</h2>
-      <form (ngSubmit)="createOffre()">
-        <!-- Numtel Input Box -->
-        <div class="input-box">
-          <input type="text" placeholder="Numéro de Téléphone" [(ngModel)]="newOffre.numtel" name="numtel" required>
-        </div>
+  <div class="form-container">
+    <h2>Postuler dans "{{ nomAppelOffre }}"</h2>
+    <form (ngSubmit)="createOffre()">
+      <!-- Numtel Input Box -->
+      <div class="input-box">
+        <input type="text" placeholder="Numéro de Téléphone" [(ngModel)]="newOffre.numtel" name="numtel" required>
+      </div>
 
-        <!-- Montant Input Box -->
-        <div class="input-box">
-          <input type="number" placeholder="Montant" [(ngModel)]="newOffre.montant" name="montant" required>
-        </div>
-        <!-- Delais de Realisation Input Box -->
-        <div class="input-box">
-            <input type="date" placeholder="Délais de réalisation" [(ngModel)]="newOffre.delaisderealisation" name="delaisderealisation" required>
-          </div>
+      <!-- Montant Input Box -->
+      <div class="input-box">
+        <input type="number" placeholder="Montant" [(ngModel)]="newOffre.montant" name="montant" required>
+      </div>
 
-        <!-- Entreprise Selection Dropdown for Admins -->
-        <div class="input-box" *ngIf="entreprises">
-          <label for="entreprise">Choisir une entreprise:</label>
-          <select id="entreprise" [(ngModel)]="newOffre.entrepriseid" name="entreprise">
-            <option value="">Sélectionner une entreprise</option>
-            <option *ngFor="let enterprise of entreprises" [value]="enterprise.id">{{ enterprise.name }}</option>
-          </select>
-        </div>
+      <!-- Delais de Realisation Input Box -->
+      <div class="input-box">
+        <input type="date" placeholder="Délais de réalisation" [(ngModel)]="newOffre.delaisderealisation" name="delaisderealisation" required>
+      </div>
 
-        <!-- Document Upload Input Box -->
-        <div class="input-box">
-          <label for="document-upload">Télécharger le document de proposition:</label>
-          <input id="document-upload" type="file" (change)="onDocumentSelected($event)" name="documentdeproposition" accept="application/pdf">
-        </div>
+      <!-- Entreprise Selection Dropdown -->
+      <div class="input-box">
+        <label for="entreprise">Choisir une entreprise:</label>
+        <select id="entreprise" [(ngModel)]="newOffre.entrepriseid" name="entreprise" required>
+          <option value="">Sélectionner une entreprise</option>
+          <option *ngFor="let enterprise of entreprises" [value]="enterprise.id">{{ enterprise.name }}</option>
+        </select>
+      </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn">Postuler</button>
-      </form>
-    </div>
+      <!-- Document Upload Input Box -->
+      <div class="input-box" [class.uploaded]="selectedDocument">
+        <label for="document-upload">Télécharger le document de proposition:</label>
+        <input id="document-upload" type="file" (change)="onDocumentSelected($event)" name="documentdeproposition" accept="application/pdf">
+        <span class="upload-status" *ngIf="selectedDocument">&#10004;</span>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn">Postuler</button>
+    </form>
   </div>
+</div>

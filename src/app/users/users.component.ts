@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { UserService } from '../services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-users',
@@ -10,8 +11,10 @@ import { UserService } from '../services/user.service';
 export class UsersComponent implements OnInit {
   users: User[] = [];
   allUsers! : User[];
+  nomUser! : string;
+
   constructor(private userService: UserService) { }
-  nomUser! :string;
+
   ngOnInit(): void {
     this.userService.listeUsers().subscribe(data => {
       this.users = data;
@@ -41,32 +44,49 @@ export class UsersComponent implements OnInit {
     return user.roles.map(role => role.name).join(', ');
   }
 
-  onKeyUp(filterText : string){
+  onKeyUp(filterText: string): void {
     this.users = this.allUsers.filter(item =>
-    item.name?.toLowerCase().includes(filterText));
-    }
+      item.name?.toLowerCase().includes(filterText.toLowerCase())
+    );
+  }
 
-    rechercherUsers(){
-      this.userService.rechercherParNom(this.nomUser).
-        subscribe(users => {
-      this.users = users; 
-      console.log(users)});
-    }
+  rechercherUsers(): void {
+    this.userService.rechercherParNom(this.nomUser).subscribe(users => {
+      this.users = users;
+      console.log(users);
+    });
+  }
 
-    supprimerUser(id: string): void {
-      console.log('Deleting user with ID:', id);
-      let conf = confirm("Etes-vous sur ?");
-      if (conf) {
+  supprimerUser(id: string): void {
+    console.log('Deleting user with ID:', id);
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Voulez-vous vraiment supprimer cet utilisateur?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745', // Green color
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
         this.userService.supprimerUser(id).subscribe(() => {
           console.log('User deleted successfully');
-          window.location.reload(); // Reload the page after successful deletion
+          this.loadUsers(); // Reload the users list after successful deletion
+          Swal.fire(
+            'Supprimé!',
+            'L\'utilisateur a été supprimé.',
+            'success'
+          );
         }, (error) => {
           console.warn('Error deleting user:', error); // Log as warning instead of error
-          window.location.reload(); // Reload the page even if an error occurs
+          Swal.fire(
+            'Erreur!',
+            'Une erreur s\'est produite lors de la suppression de l\'utilisateur.',
+            'error'
+          );
         });
       }
-    }
-    
-    
-    
+    });
+  }
 }

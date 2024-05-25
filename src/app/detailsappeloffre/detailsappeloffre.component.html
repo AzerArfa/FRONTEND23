@@ -1,49 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails de l'Offre</title>
-</head>
-<body>
-    <div class="container">
-        <div class="offer-container">
-            <h1 class="offer-title">{{currentAppelOffre.titre}}</h1>
-            <div class="image-section">
-                <img [src]="currentAppelOffre.img ? 'data:image/png;base64,' + currentAppelOffre.img : 'https://bootdey.com/img/Content/avatar/avatar7.png'" alt="Offer Image" class="offer-image">
-            </div>
-            <div class="details-section">
-                <p class="offer-description">{{currentAppelOffre.description}}</p>
-                <span class="location-info">{{currentAppelOffre.localisation}}</span>
-                <a (click)="downloadDocument(currentAppelOffre.id)" style="color:blue">Télecharger</a>
-            </div>
+<div class="container">
+    <div class="details-container">
+      <h1 class="offer-title">{{currentAppelOffre.titre}}</h1>
+      <div class="header-section">
+        <div class="image-section">
+          <img [src]="currentAppelOffre.img ? 'data:image/png;base64,' + currentAppelOffre.img : 'assets/default-image.png'" alt="Offer Image" class="offer-image">
         </div>
-        <div class="entreprise-info">
-            <h2>Entreprise Info</h2>
-            <table class="info-table">
-                <tr>
-                    <th>Nom:</th>
-                    <td>{{ currentEntreprise.name }}</td>
-                </tr>
-                <tr>
-                    <th>Secteur d'activité:</th>
-                    <td>{{ currentEntreprise.secteuractivite }}</td>
-                </tr>
-                <tr>
-                    <th>Adresse:</th>
-                    <td>{{ currentEntreprise.adresse }}</td>
-                </tr>
-                <tr>
-                    <th>Ville:</th>
-                    <td>{{ currentEntreprise.ville }}</td>
-                </tr>
-            </table>
-            
+        <div class="offer-details-section">
+          <p class="offer-description">{{currentAppelOffre.description}}</p>
+          <span class="location-info">{{currentAppelOffre.localisation}}</span>
+          <br>
+          <a (click)="downloadDocument(currentAppelOffre.id)" class="download-link">
+            <i class="fas fa-download"></i> Télécharger
+          </a>
         </div>
-         <button class="btn btn-primary" [routerLink]="['/addOffre', currentAppelOffre.id]">Postuler dans cet offre</button>
-
+      </div>
+      <div class="entreprise-info">
+        <h2 class="section-title">Entreprise Info</h2>
+        <table class="info-table">
+          <tr>
+            <th>Nom:</th>
+            <td>{{ currentEntreprise.name }}</td>
+          </tr>
+          <tr>
+            <th>Secteur d'activité:</th>
+            <td>{{ currentEntreprise.secteuractivite }}</td>
+          </tr>
+          <tr>
+            <th>Adresse:</th>
+            <td>{{ currentEntreprise.adresse }}</td>
+          </tr>
+          <tr>
+            <th>Ville:</th>
+            <td>{{ currentEntreprise.ville }}</td>
+          </tr>
+        </table>
+      </div>
+      <button class="btn btn-primary" [routerLink]="['/addOffre', currentAppelOffre.id]">Postuler dans cet offre</button>
     </div>
-   
-</body>
-
-</html>
+  </div>
+  

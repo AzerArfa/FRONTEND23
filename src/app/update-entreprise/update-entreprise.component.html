@@ -3,38 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update Entreprise</title>
+  <title>Modifier Entreprise</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
   <div class="full-screen-container">
     <div class="form-container">
-      <h2>Update Entreprise</h2>
+      <h2>Modifier Entreprise</h2>
       <form (ngSubmit)="updateEntreprise()">
-        <div class="input-box">
+        <div class="input-box image-preview" (click)="openFileInput()">
+          <input type="file" id="logoInput" (change)="onFileSelected($event)" name="logo" class="form-control" style="display: none;">
+          <img *ngIf="logoPreview" class="entreprise-logo" [src]="logoPreview" alt="Logo Preview" style="cursor: pointer; width: 80px; height: auto;">
+        </div>
+
+        <div class="input-box full-width">
           <input type="text" [(ngModel)]="currentEntreprise.name" name="name" class="form-control" placeholder="Nom">
         </div>
-        <div class="input-box">
-          <input type="text" [(ngModel)]="currentEntreprise.adresse" name="adresse" class="form-control" placeholder="Addresse">
-        </div>
-        <div class="input-box">
-          <input type="text" [(ngModel)]="currentEntreprise.secteuractivite" name="secteuractivite" class="form-control" placeholder="Activity Sector">
-        </div>
-        <div class="input-box">
-          <input type="text" [(ngModel)]="currentEntreprise.matricule" name="matricule" class="form-control" placeholder="matricule">
-        </div>
-        <div class="input-box">
+        <div class="input-box half-width">
           <input type="text" [(ngModel)]="currentEntreprise.ville" name="ville" class="form-control" placeholder="City">
         </div>
-        <div class="input-box">
+        <div class="input-box half-width">
+          <input type="text" [(ngModel)]="currentEntreprise.adresse" name="adresse" class="form-control" placeholder="Adresse">
+        </div>
+        <div class="input-box half-width">
+          <input type="text" [(ngModel)]="currentEntreprise.secteuractivite" name="secteuractivite" class="form-control" placeholder="Activity Sector">
+        </div>
+        <div class="input-box half-width">
           <input type="text" [(ngModel)]="currentEntreprise.siegesociale" name="siegesociale" class="form-control" placeholder="Head Office">
         </div>
-        <div class="input-box">
+        <div class="input-box half-width">
+          <input type="text" [(ngModel)]="currentEntreprise.matricule" name="matricule" class="form-control" placeholder="Matricule">
+        </div>
+        <div class="input-box half-width">
           <input type="text" [(ngModel)]="currentEntreprise.codeTVA" name="codeTVA" class="form-control" placeholder="TAX Code">
         </div>
-        <div class="input-box">
-          <input type="file" (change)="onFileSelected($event)" name="logo">
+
+        <div class="input-box full-width">
+          <label class="custom-file-upload">
+            <i class="fas fa-file-pdf"></i> Document CodeTVA
+            <input type="file" (change)="onDocumentCODETVASelected($event)" name="codetvadocument" id="codetvadocument" accept="application/pdf">
+            <span *ngIf="codetvadocumentUploaded" class="checkmark"><i class="fas fa-check-circle"></i></span>
+          </label>
         </div>
-        <button type="submit"  class="btn">Update Entreprise</button>
+        <div class="input-box full-width">
+          <label class="custom-file-upload">
+            <i class="fas fa-file-pdf"></i> Status
+            <input type="file" (change)="onDocumentSelected($event)" name="status" id="status" accept="application/pdf">
+            <span *ngIf="statusDocumentUploaded" class="checkmark"><i class="fas fa-check-circle"></i></span>
+          </label>
+        </div>
+        <button type="submit" class="btn">Modifier</button>
       </form>
     </div>
   </div>

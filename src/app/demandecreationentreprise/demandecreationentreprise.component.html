@@ -18,6 +18,7 @@
             <label for="image-upload" class="image-upload-label">
                 <i class="upload-icon">📷</i>
                 Logo de votre entreprise
+                <span *ngIf="logoUploaded" class="checkmark" style="color:green"><i class="fas fa-check-circle"></i></span>
             </label>
             <input type="file" (change)="onFileSelected($event)" name="logo" id="image-upload" multiple hidden>
         </div>
@@ -39,20 +40,21 @@
         <div class="input-box half-width">
           <div class="image-upload-container">
             <label for="codetvadocument" class="image-upload-label">
-                <i class="fas fa-file-pdf upload-icon"></i> <!-- Replace emoji with Font Awesome PDF icon -->
+                <i class="fas fa-file-pdf upload-icon"></i> 
                 Document CodeTVA
+                <span *ngIf="codetvadocumentUploaded" class="checkmark" style="color:green"><i class="fas fa-check-circle"></i></span>
             </label>
             <input type="file" (change)="onDocumentCODETVASelected($event)" name="codetvadocument" id="codetvadocument" accept="application/pdf" style="opacity: 0;">
           </div>
           <div class="image-upload-container">
             <label for="status" class="image-upload-label">
-                <i class="fas fa-file-pdf upload-icon"></i> <!-- Replace emoji with Font Awesome PDF icon -->
+                <i class="fas fa-file-pdf upload-icon"></i> 
                 Status
+                <span *ngIf="statusDocumentUploaded" class="checkmark" style="color:green"><i class="fas fa-check-circle"></i></span>
                 <input type="file" (change)="onDocumentSelected($event)" name="status" id="status" accept="application/pdf" style="opacity: 0;">
             </label>
           </div>
         </div>
-        
         <hr>
         <button type="submit" class="btn">Envoyer demande</button>
       </form>

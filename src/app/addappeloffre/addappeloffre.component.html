@@ -1,45 +1,44 @@
 <div class="full-screen-container">
-    <div class="form-container">
-      <h2>Créer un appel d'offre</h2>
-      <form (ngSubmit)="createAppelOffre()">
-        <div class="input-box">
-          <input type="text" placeholder="Title" [(ngModel)]="newAppelOffre.titre" name="titre" required>
+  <div class="form-container">
+    <h2>Créer un appel d'offre</h2>
+    <form (ngSubmit)="createAppelOffre()">
+      <div class="input-box">
+        <label for="image-upload"></label>
+        <div class="image-upload-container" (click)="triggerFileInput()">
+          <img [src]="imagePreview || 'https://via.placeholder.com/150'" alt="Offer Image" class="offer-image">
+          <div class="plus-button">+</div>
         </div>
-        <div class="input-box">
+        <input type="file" (change)="onImageSelected($event)" id="fileInput" style="display: none;">
+      </div>
+      <div class="input-group">
+        <div class="input-box half-width">
+          <input type="text" placeholder="Titre" [(ngModel)]="newAppelOffre.titre" name="titre" required>
+        </div>
+        <div class="input-box half-width">
           <input type="text" placeholder="Description" [(ngModel)]="newAppelOffre.description" name="description" required>
         </div>
-        <div class="input-box">
+      </div>
+      <div class="input-group">
+        <div class="input-box half-width">
           <input type="text" placeholder="Localisation" [(ngModel)]="newAppelOffre.localisation" name="localisation" required>
         </div>
-        <!-- Category Dropdown -->
-<div class="input-box">
-  <select [(ngModel)]="newAppelOffre.categorieId" name="categorieId" required>
-    <option value="" disabled selected>Choisir un catégorie</option>
-    <option *ngFor="let categorie of categories" [value]="categorie.id">{{ categorie.nomcategorie }}</option>
-  </select>
-</div>
-
-        <div class="input-box">
+        <div class="input-box half-width">
+          <select id="categorieId" [(ngModel)]="newAppelOffre.categorieId" name="categorieId" required>
+            <option [ngValue]="null" disabled selected>Choisir une catégorie</option>
+            <option *ngFor="let categorie of categories" [ngValue]="categorie.id">{{ categorie.nomcategorie }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="input-box half-width">
           <input type="date" placeholder="Submission Deadline" [(ngModel)]="datelimitesoumissionFormatted" name="datelimitesoumission" required>
         </div>
-        <!-- <div class="input-box">
-          <input type="file" (change)="onImageSelected($event)" name="img">
-        </div> -->
-
-        <div class="image-upload-container">
-            <label for="image-upload" class="image-upload-label">
-                <i class="upload-icon">📷</i>
-                Image
-            </label>
-            <input type="file" (change)="onImageSelected($event)" name="img" id="image-upload" multiple hidden>
+        <div class="input-box half-width uploaded" [class.uploaded]="selectedDocument">
+          <input id="document-upload" type="file" (change)="onDocumentSelected($event)" name="document" accept="application/pdf">
+          <span class="upload-status" *ngIf="selectedDocument">&#10004;</span>
         </div>
-
-
-        <div class="input-box">
-          <input type="file" (change)="onDocumentSelected($event)" name="document" accept="application/pdf">
-        </div>
-
-        <button type="submit" class="btn">Créer</button>
-      </form>
-    </div>
+      </div>
+      <button type="submit" class="btn">Créer</button>
+    </form>
   </div>
+</div>

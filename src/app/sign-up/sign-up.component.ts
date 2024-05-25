@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { User } from '../model/user.model';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -11,21 +9,33 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent  { 
+export class SignUpComponent {
   
   newUser: User = new User();
   selectedFile: File | null = null;  // Allow null as a valid value
   confirmPassword: string = '';
   captcha: boolean = false;
+  imagePreview: string | ArrayBuffer | null = null;
 
-  constructor(private userService: UserService, private router: Router,private toastr:ToastrService) { }
+  constructor(private userService: UserService, private router: Router, private toastr: ToastrService) { }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagePreview = reader.result;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
   }
 
-  resolved(captchaResponse: string): void {
-    this.captcha = !!captchaResponse;
+  triggerFileInput(): void {
+    document.getElementById('fileInput')!.click();
+  }
+
+  resolved(captchaResponse: string | null): void {
+    this.captcha = captchaResponse !== null;
   }
 
   onSubmit(): void {
@@ -57,7 +67,7 @@ export class SignUpComponent  {
       console.log('User signed up successfully', response);
       this.router.navigate(['/login']);
     }, error => {
-      this.toastr.error('Enregistrement echoué', 'Sign up', {
+      this.toastr.error('Enregistrement échoué', 'Sign up', {
         timeOut: 5000,
         closeButton: true,
         progressBar: true,

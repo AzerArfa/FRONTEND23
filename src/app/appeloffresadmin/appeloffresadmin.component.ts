@@ -4,6 +4,7 @@ import { AppeloffreService } from '../services/appeloffre.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { Entreprise } from '../model/entreprise.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-appeloffresadmin',
@@ -15,7 +16,8 @@ export class AppeloffresadminComponent implements OnInit {
   isLoading = true; // Track loading state
   entrepriseId: string | null = null;
   entreprise: Entreprise | null = null;
-  constructor( private userService: UserService,private appeloffreService: AppeloffreService, private route: ActivatedRoute) {}
+
+  constructor(private userService: UserService, private appeloffreService: AppeloffreService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -26,6 +28,7 @@ export class AppeloffresadminComponent implements OnInit {
       }
     });
   }
+
   private loadEntreprise(id: string): void {
     this.userService.getEntrepriseById(id).subscribe({
       next: (entreprise) => {
@@ -38,17 +41,37 @@ export class AppeloffresadminComponent implements OnInit {
       }
     });
   }
+
   supprimerAppelOffre(id: string): void {
-    let conf = confirm("Etes-vous sur ?");
-    if (conf) {
-      this.appeloffreService.deleteAppelOffreAdmin(id).subscribe(() => {
-        console.log('Appel doffre supprimé');
-        window.location.reload(); // Reload the page after successful deletion
-      }, (error) => {
-        console.warn(error); // Log as warning instead of error
-        window.location.reload(); // Reload the page even if an error occurs
-      });
-    }
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Voulez-vous vraiment supprimer cet appel d\'offre?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745', // Green color
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.appeloffreService.deleteAppelOffreAdmin(id).subscribe(() => {
+          console.log('Appel doffre supprimé');
+          Swal.fire(
+            'Supprimé!',
+            'L\'appel d\'offre a été supprimé.',
+            'success'
+          );
+          this.getAppelOffresByEntreprise(this.entrepriseId!); // Reload the offers after successful deletion
+        }, (error) => {
+          console.warn('Error deleting appel d\'offre:', error); // Log as warning instead of error
+          Swal.fire(
+            'Erreur!',
+            'Une erreur s\'est produite lors de la suppression de l\'appel d\'offre.',
+            'error'
+          );
+        });
+      }
+    });
   }
 
   private getAppelOffresByEntreprise(entrepriseId: string): void {
@@ -64,4 +87,3 @@ export class AppeloffresadminComponent implements OnInit {
     });
   }
 }
-

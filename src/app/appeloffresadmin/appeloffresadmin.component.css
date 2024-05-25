@@ -1,5 +1,4 @@
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
-
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -62,6 +61,7 @@ body {
 .text-center {
   text-align: center;
 } 
+
 .enterprise-header {
   background-color: #3B3F58; /* Deep blue background */
   color: white;
@@ -93,16 +93,24 @@ body {
   font-size: 1.2rem; /* Slightly smaller font size for the detail */
 }
 
-.btn-outline-light {
-  border-color: #fff;
-  color: #fff;
-  background: transparent;
+.btn-custom {
+  background-color: #007BFF; /* Blue color for button */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.btn-outline-light:hover {
-  background-color: #ffffff;
-  color: #3B3F58; /* Adjust hover color to match theme */
+.btn-custom:hover {
+  background-color: #0056b3; /* Darker blue for hover effect */
+  color: white;
 }
 
 /* Ensure existing styles don't conflict */
@@ -114,6 +122,7 @@ body {
 .card, .card-img-top, .card-body, .card-footer {
   /* No changes needed here unless further customization is desired */
 }
+
 .user-card {
   border: none;
   border-radius: 10px;
@@ -126,17 +135,12 @@ body {
   transform: scale(1.05);
 }
 
-
-
 .card-body {
   text-align: center; /* Center-align the text in card */
 }
 
-.btn-primary {
-  background-color: #4CAF50;
-  border: none;
-}
-
-.btn-primary:hover {
-  background-color: #45a049;
+.user-img {
+  width: 350px;  /* Fixed width for all user images */
+  height: 300px; /* Fixed height for all user images */
+  object-fit: cover; /* Ensures the image covers the space without distorting aspect ratio */
 }

@@ -26,6 +26,10 @@ export class DemandecreationentrepriseComponent  implements OnInit {
   selectedDocument: File | null = null;
   codetvadocument: File | null = null;
 
+  logoUploaded: boolean = false;
+  codetvadocumentUploaded: boolean = false;
+  statusDocumentUploaded: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
@@ -43,6 +47,7 @@ export class DemandecreationentrepriseComponent  implements OnInit {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+    this.logoUploaded = !!this.selectedFile;
   }
 
   onSubmit(): void {
@@ -71,7 +76,7 @@ export class DemandecreationentrepriseComponent  implements OnInit {
     this.userService.requestToAddEntreprise(this.userId!, formData).subscribe(
       response => {
         console.log('Request added successfully:', response);
-        this.router.navigate([`/profile/${this.userId}`]);
+        this.router.navigate([`/profile`]);
         this.toastr.success('Votre demande a été envoyé avec succées', 'Demande rejoint entreprise', {
           timeOut: 5000,
           closeButton: true,
@@ -100,6 +105,7 @@ export class DemandecreationentrepriseComponent  implements OnInit {
   onDocumentCODETVASelected(event: any): void {
     if (event.target.files && event.target.files[0]) {
       this.codetvadocument = event.target.files[0];
+      this.codetvadocumentUploaded = !!this.codetvadocument;
       console.log('Selected CODETVA Document:', this.codetvadocument);
     }
   }
@@ -107,6 +113,7 @@ export class DemandecreationentrepriseComponent  implements OnInit {
   onDocumentSelected(event: any): void {
     if (event.target.files && event.target.files[0]) {
       this.selectedDocument = event.target.files[0];
+      this.statusDocumentUploaded = !!this.selectedDocument;
     }
   }
 }

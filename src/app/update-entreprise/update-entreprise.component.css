@@ -1,70 +1,122 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-  
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f0f8ff;
-  }
-  
-  .full-screen-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-  }
-  
-  .form-container {
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-    background: #ffffff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    border-radius: 10px;
-  }
-  
-  .form-container h2 {
-    margin-bottom: 2rem;
-    font-size: 2rem;
-  }
-  
-  .input-box {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-  
-  .input-box input {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  .btn {
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    background: #26a69a;
-    color: #ffffff;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .btn:hover {
-    background: #2bbbad;
-  }
-  
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f8ff;
+  padding-top: 20px; /* Adjust padding to prevent overlap with navbar */
+}
+
+.full-screen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 40px); /* Adjust for navbar height */
+  padding: 20px; /* Add padding for better spacing */
+}
+
+.form-container {
+  text-align: center;
+  width: 100%;
+  max-width: 450px; /* Reduce max-width to fit better */
+  max-height: 100vh; /* Ensure it doesn't exceed viewport height */
+  overflow-y: auto; /* Add scroll if needed */
+  background: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem; /* Reduce padding */
+  border-radius: 10px;
+  margin: 20px; /* Add margin for better spacing */
+}
+
+.form-container h2 {
+  margin-bottom: 1.5rem; /* Reduce bottom margin */
+  font-size: 1.5rem; /* Reduce font size */
+}
+
+.input-box {
+  width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.input-box.full-width {
+  width: 100%;
+}
+
+.input-box.half-width {
+  width: 48%;
+  display: inline-block;
+  margin-right: 2%;
+}
+
+.input-box.half-width:nth-child(2n) {
+  margin-right: 0;
+}
+
+.input-box input[type="text"] {
+  width: 100%;
+  padding: 0.75rem; /* Reduce padding */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem; /* Reduce font size */
+}
+
+.custom-file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-size: 0.8rem; /* Reduce font size */
+  font-weight: 500;
+  color: #333;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.custom-file-upload:hover {
+  background-color: #e0e0e0;
+}
+
+.custom-file-upload i {
+  margin-right: 0.5rem;
+}
+
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+.checkmark {
+  color: green;
+  margin-left: 10px;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.75rem; /* Reduce padding */
+  border: none;
+  background: #26a69a;
+  color: #ffffff;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #2bbbad;
+}

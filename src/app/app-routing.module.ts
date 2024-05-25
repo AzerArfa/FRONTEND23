@@ -26,35 +26,34 @@ import { DemanderejointentrepriseComponent } from './demanderejointentreprise/de
 import { HomevisitorComponent } from './homevisitor/homevisitor.component';
 import { ListentreprisesComponent } from './listentreprises/listentreprises.component';
 import { GestioncategoriesComponent } from './gestioncategories/gestioncategories.component';
+import { AdminGuard } from './guards/admin.guard';
 
 
 
 const routes: Routes = [
   {path:"addOffre/:id",component:AddoffreComponent},
   {path:"gestioncategories",component:GestioncategoriesComponent,canActivate: [SuperAdminGuard]},
-  {path:"listentreprises",component:ListentreprisesComponent},
   {path:"demandecreationentreprise",component:DemandecreationentrepriseComponent,canActivate: [AuthGuard]},
   {path:"demanderejointentreprise",component:DemanderejointentrepriseComponent,canActivate: [AuthGuard]},
   {path:"actionentreprise",component:ActionentrepriseComponent,canActivate: [AuthGuard]},
-  {path:"forbidden",component:ForbiddenComponent},
-  {path:"addAppelOffre/:id",component:AddappeloffreComponent},
-  {path:"detailsAppelOffre/:id",component:DetailsappeloffreComponent},
-  {path:"detailsAppelOffreAdmin/:id",component:DetailsappeloffreadminComponent},
-  {path:"appeloffresadmin/:id",component:AppeloffresadminComponent},
+  {path:"addAppelOffre/:id",component:AddappeloffreComponent,canActivate: [AdminGuard]},
+  {path:"detailsAppelOffre/:id",component:DetailsappeloffreComponent,canActivate: [AuthGuard]},
+  {path:"detailsAppelOffreAdmin/:id",component:DetailsappeloffreadminComponent,canActivate: [AdminGuard]},
+  {path:"appeloffresadmin/:id",component:AppeloffresadminComponent,canActivate: [AdminGuard]},
   {path:"home", component:HomeComponent ,canActivate: [AuthGuard]},
-  {path:"about", component:AboutComponent},
   {path:"users",component:UsersComponent,canActivate: [SuperAdminGuard]},
-  {path:"login", component:LoginComponent},
-  {path:"addUser",component:AddUserComponent},
-  {path:"signUp",component:SignUpComponent},
-  {path: "updateUser/:id", component: UpdateUserComponent},
-  {path:"updateappeloffre/:id",component:UpdateappeloffreComponent},
-  {path:"updateEntreprise/:id",component:UpdateEntrepriseComponent},
-  {path:"profile/:id",component:ProfileComponent},
+  {path: "updateUser/:id", component: UpdateUserComponent,canActivate: [AuthGuard]},
+  {path:"updateappeloffre/:id",component:UpdateappeloffreComponent,canActivate: [AdminGuard]},
+  {path:"updateEntreprise/:id",component:UpdateEntrepriseComponent,canActivate: [AdminGuard]},
+  {path:"profile",component:ProfileComponent,canActivate: [AuthGuard]},
   { path: 'navbar', component: NavbarComponent } ,
+  {path:"login", component:LoginComponent},
+  {path:"signUp",component:SignUpComponent},
+  {path:"listentreprises",component:ListentreprisesComponent},
+  {path:"forbidden",component:ForbiddenComponent},
+  {path:"about", component:AboutComponent},
   { path: 'homevisitor', component: HomevisitorComponent } ,
-  { path: '', component: HomevisitorComponent } ,
-  {path:"addentreprise/:id",component:AddentrepriseComponent}
+  { path: '', component: HomevisitorComponent } 
 ];
 
 @NgModule({

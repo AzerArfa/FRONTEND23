@@ -27,9 +27,15 @@ export class UserService {
   user!: User;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
-
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('authToken');
+    console.log("Token used: ", token); // Assuming token is stored in local storage
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
   listeUsers(): Observable<User[]> {
-    return this.http.get<User[]>(authApiURL + '/users');
+    return this.http.get<User[]>(authApiURL + '/users', { headers: this.getAuthHeaders() });
   }
 
   ajouterUser(user: User): Observable<User> {
@@ -58,7 +64,7 @@ export class UserService {
   }
 
   supprimerEntreprise(id: string): Observable<Entreprise> {
-    return this.http.delete<Entreprise>(`${authApiURL}/entreprise/${id}`);
+    return this.http.delete<Entreprise>(`${authApiURL}/entreprise/${id}`, { headers: this.getAuthHeaders() });
   }
 
   consulterUser(id: string): Observable<User> {
@@ -66,7 +72,7 @@ export class UserService {
   }
 
   getUserById(userId: string): Observable<User> {
-    return this.http.get<User>(`${authApiURL}/user/${userId}`).pipe(
+    return this.http.get<User>(`${authApiURL}/user/${userId}`, { headers: this.getAuthHeaders() }).pipe(
       tap(user => {
         console.log('Fetched User:', user);
         return user;
@@ -104,7 +110,7 @@ updateUser(id: string, formData: FormData): Observable<any> {
   }
 
   updateEntreprise(id: string, entrepriseData: FormData): Observable<Entreprise> {
-    return this.http.put<Entreprise>(`${authApiURL}/entreprise/${id}`, entrepriseData);
+    return this.http.put<Entreprise>(`${authApiURL}/entreprise/${id}`, entrepriseData, { headers: this.getAuthHeaders() });
   }
 
   rechercherParNom(term: string): Observable<any> {

@@ -1,16 +1,21 @@
 <div class="container">
-    <div class="offer-container">
-      <h1 class="offer-title">{{ currentAppelOffre.titre }}</h1>
+  <div class="details-container">
+    <div class="header-section">
       <div class="image-section">
         <img [src]="currentAppelOffre.img ? 'data:image/png;base64,' + currentAppelOffre.img : 'https://bootdey.com/img/Content/avatar/avatar7.png'" alt="Offer Image" class="offer-image">
       </div>
-      <div class="details-section">
+      <div class="offer-details-section">
+        <h1 class="offer-title">{{ currentAppelOffre.titre }}</h1>
+        <h2 class="section-title"></h2>
         <p class="offer-description">{{ currentAppelOffre.description }}</p>
         <span class="location-info">{{ currentAppelOffre.localisation }}</span>
+        <a (click)="downloadDocumentAppelOffre(currentAppelOffre.id)" class="download-link">
+          <i class="fas fa-file-pdf"></i> Détails
+        </a>
       </div>
     </div>
     <div class="entreprise-info">
-      <h2>Entreprise Info</h2>
+      <h2 class="section-title">Entreprise Info</h2>
       <table class="info-table">
         <tr>
           <th>Nom:</th>
@@ -30,35 +35,36 @@
         </tr>
       </table>
     </div>
-    <div class="card mb-3">
-      <div class="card-body">
-        <h6 class="d-flex align-items-center mb-3">Liste des Offres</h6>
-        <table class="table user-list">
-          <thead>
-            <tr>
-              <th>Numéro de télephone</th>
-              <th>Montant</th>
-              <th>Délais de réalisation</th>
-              <th>Date de dépot</th>
-              <th>Document de proposition</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let offre of offres">
-                <td>{{ offre.numtel }}</td>
-                <td>{{ offre.montant }} TND</td>
-                <td>{{ offre.delaisderealisation | date }}</td>
-                <td>{{ offre.datededepot | date }}</td>
-                <td>
-                    <a (click)="downloadDocument(offre.id)" style="color: #FF5733; font-size: 30px;text-align: center;">
-                        <i class="fas fa-file-pdf"></i>
-                    </a>
-                </td>
-            </tr>
+  </div>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h6 class="d-flex align-items-center mb-3">Liste des Offres</h6>
+      <table class="table user-list">
+        <thead>
+          <tr>
+            <th>Entreprise</th>
+            <th>Numéro de téléphone</th>
+            <th>Montant</th>
+            <th>Date de dépôt</th>
+            <th>Délais de réalisation</th>
+            <th>Document de proposition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let offre of offres">
+            <td>{{ getEnterpriseName(offre.entrepriseid) }}</td>
+            <td>{{ offre.numtel }}</td>
+            <td>{{ offre.montant }} TND</td>
+            <td>{{ offre.datededepot | date }}</td>
+            <td>{{ offre.delaisderealisation | date }}</td>
+            <td>
+              <a (click)="downloadDocument(offre.id)" class="download-link">
+                <i class="fas fa-file-pdf"></i>
+              </a>
+            </td>
+          </tr>
         </tbody>
-        
-        </table>
-      </div>
+      </table>
     </div>
   </div>
-  
+</div>

@@ -5,6 +5,7 @@ import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-updateappeloffre',
   templateUrl: './updateappeloffre.component.html',
@@ -15,6 +16,8 @@ export class UpdateappeloffreComponent implements OnInit {
   selectedFile: File | null = null;
   selectedDocument: File | null = null;  // Handle the document upload
   datelimitesoumissionFormatted!: string;
+  showFileInput: boolean = false; // Flag to control file input visibility
+  offreImagePreview: string | ArrayBuffer | null = null; // Image preview
 
   constructor(
     private appeloffreService: AppeloffreService, 
@@ -33,7 +36,11 @@ export class UpdateappeloffreComponent implements OnInit {
           if (currentAppelOffre.datelimitesoumission) {
             this.datelimitesoumissionFormatted = formatDate(currentAppelOffre.datelimitesoumission, 'yyyy-MM-dd', 'en-US');
           }
-        
+
+          if (this.currentAppelOffre.img) {
+            // Assuming 'img' is a Base64 encoded string
+            this.offreImagePreview = `data:image/jpeg;base64,${this.currentAppelOffre.img}`;
+          }
         },
         error => {
           this.toastr.error('Modification echoué', "Appel d'offre", {
@@ -43,15 +50,29 @@ export class UpdateappeloffreComponent implements OnInit {
             positionClass: 'toast-top-right',
           });
           console.error('Error loading currentAppelOffre:', error);
-
         }
       );
     });
   }
 
   onFileSelected(event: any): void {
-    if (event.target.files && event.target.files[0]) {
+    if (event.target.files && event.target.files.length > 0) {
+      // A new file has been selected
       this.selectedFile = event.target.files[0];
+      this.showFileInput = false; // Close file input after selecting a file
+      // Read the selected file and display it dynamically
+      if (this.selectedFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.offreImagePreview = e.target?.result as string | ArrayBuffer | null;
+        };
+        reader.readAsDataURL(this.selectedFile);
+      }
+    } else {
+      // No new file was selected, reset selectedFile to null
+      this.selectedFile = null;
+      this.showFileInput = false; // Close file input if no file selected
+      this.offreImagePreview = this.currentAppelOffre.img; // Reset image preview
     }
   }
 
@@ -78,7 +99,6 @@ export class UpdateappeloffreComponent implements OnInit {
 
     this.appeloffreService.updateAppelOffreFormData(this.currentAppelOffre.id, formData).subscribe(
       () => {
-        
         console.log('currentAppelOffre updated successfully');
         this.location.back();
         this.toastr.success('Modification terminé avec succées', "Appel d'offre", {
@@ -99,5 +119,8 @@ export class UpdateappeloffreComponent implements OnInit {
       }
     );
   }
-}
 
+  openFileInput(): void {
+    this.showFileInput = true; // Open file input when user clicks on the image
+  }
+}

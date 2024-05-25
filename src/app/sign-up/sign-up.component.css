@@ -38,12 +38,36 @@ body, html {
 .login-container {
   width: 100%;
   max-width: 500px;
+  text-align: center;
 }
 
 .login-container .icon {
   width: 80px;
-  height: auto;
+  height: 80px;
+  border-radius: 50%;
+  cursor: pointer;
   margin-bottom: 1rem;
+}
+
+.icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.icon-container .plus-button {
+  position: absolute;
+  bottom: 10px; /* Adjusted to move higher */
+  right: 0;
+  background-color: #28a745;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
 }
 
 .login-container h1 {
@@ -79,6 +103,12 @@ body, html {
   display: block;
   color: #dc3545;
   font-size: 0.875em;
+}
+
+.recaptcha-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 button {

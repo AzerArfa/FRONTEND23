@@ -1,56 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <!-- Include Bootstrap CSS for styling -->
- </head>
-<body>
-  <div class="container">
-    <div class="left-section">
-      <img src="https://media-animation.be/local/cache-vignettes/L960xH640/appeloffre-8e211.jpg" alt="Doctor Illustration">
-    </div>
-    <div class="right-section">
-      <div class="login-container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/510px-Default_pfp.svg.png" alt="Doctor Icon" class="icon">
-        <h1>WELCOME</h1>
-        <form class="login-form" (ngSubmit)="onSubmit()" #signUpForm="ngForm">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="CIN" [(ngModel)]="newUser.cin" name="cin" required pattern="^[0-9]{8}$" #cin="ngModel" [ngClass]="{'is-invalid': cin.invalid && cin.touched}">
-            <div *ngIf="cin.invalid && cin.touched" class="invalid-feedback">Le CIN doit comporter 8 chiffres.</div>
-
-            <input type="email" class="form-control" placeholder="Email" [(ngModel)]="newUser.email" name="email" required email #email="ngModel" [ngClass]="{'is-invalid': email.invalid && email.touched}">
-            <div *ngIf="email.invalid && email.touched" class="invalid-feedback">Entrer un email valide.</div>
-
-            <input type="text" class="form-control" placeholder="Nom" [(ngModel)]="newUser.name" name="username" required #name="ngModel" [ngClass]="{'is-invalid': name.invalid && name.touched}">
-            <input type="text" class="form-control" placeholder="Prénom" [(ngModel)]="newUser.prenom" name="prenom" required #prenom="ngModel" [ngClass]="{'is-invalid': prenom.invalid && prenom.touched}">
-            
-            <input type="date" class="form-control" placeholder="Date de Naissance" [(ngModel)]="newUser.datenais" name="datenaissance" required #datenaissance="ngModel" [ngClass]="{'is-invalid': datenaissance.invalid && datenaissance.touched}">
-            <input type="text" class="form-control" placeholder="Lieu de Naissance" [(ngModel)]="newUser.lieunais" name="lieunaissance" required #lieunaissance="ngModel" [ngClass]="{'is-invalid': lieunaissance.invalid && lieunaissance.touched}">
-            
-            <input type="password" class="form-control" placeholder="Password" [(ngModel)]="newUser.password" name="password" required minlength="8" #password="ngModel" [ngClass]="{'is-invalid': password.invalid && password.touched}">
-            <div *ngIf="password.invalid && password.touched" class="invalid-feedback">Mot de passe doit être d'au moins 8 caractères.</div>
-
-            <input type="password" class="form-control" placeholder="Please confirm your password" [(ngModel)]="confirmPassword" name="Confirmingpassword" required [class.is-invalid]="confirmPassword !== newUser.password && signUpForm.submitted">
-            <div *ngIf="confirmPassword !== newUser.password && signUpForm.submitted" class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
-            
-            <input type="file" class="form-control" (change)="onFileSelected($event)" name="img">
-          </div>
-       
-          <div [hidden]="captcha">
-            <re-captcha (resolved)="resolved($event!)" siteKey="6LcL08UpAAAAACqIwpE_30W9BzvlXvlc0QJbyX89"></re-captcha>
-          </div>
-          <div [hidden]="!captcha">
-            <button type="submit" class="btn btn-success">Sign Up</button>
-          </div><div class="form-footer">
-            <div class="forgot-password">
-              <a href="#">Forgot Password?</a>
-            </div>
-            <div class="account-signin">
-              <p>Already have an account? <a href="/login">Sign In</a></p>
-            </div>
-          </div>
-        </form>
+<div class="container">
+  <div class="left-section">
+    <img src="https://media-animation.be/local/cache-vignettes/L960xH640/appeloffre-8e211.jpg" alt="Illustration">
+  </div>
+  <div class="right-section">
+    <div class="login-container">
+      <h1>Bienvenue</h1>
+      <div class="icon-container" (click)="triggerFileInput()">
+        <img [src]="imagePreview || 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/510px-Default_pfp.svg.png'" alt="Profile Icon" class="icon">
+        <div class="plus-button">+</div>
       </div>
+      <input type="file" (change)="onFileSelected($event)" id="fileInput" style="display: none;">
+      <form class="login-form" (ngSubmit)="onSubmit()" #signUpForm="ngForm">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="CIN" [(ngModel)]="newUser.cin" name="cin" required pattern="^[0-9]{8}$" #cin="ngModel" [ngClass]="{'is-invalid': cin.invalid && cin.touched}">
+          <div *ngIf="cin.invalid && cin.touched" class="invalid-feedback">Le CIN doit comporter 8 chiffres.</div>
+
+          <input type="email" class="form-control" placeholder="Email" [(ngModel)]="newUser.email" name="email" required email #email="ngModel" [ngClass]="{'is-invalid': email.invalid && email.touched}">
+          <div *ngIf="email.invalid && email.touched" class="invalid-feedback">Entrer un email valide.</div>
+
+          <input type="text" class="form-control" placeholder="Nom" [(ngModel)]="newUser.name" name="username" required #name="ngModel" [ngClass]="{'is-invalid': name.invalid && name.touched}">
+          <input type="text" class="form-control" placeholder="Prénom" [(ngModel)]="newUser.prenom" name="prenom" required #prenom="ngModel" [ngClass]="{'is-invalid': prenom.invalid && prenom.touched}">
+
+          <input type="date" class="form-control" placeholder="Date de Naissance" [(ngModel)]="newUser.datenais" name="datenaissance" required #datenaissance="ngModel" [ngClass]="{'is-invalid': datenaissance.invalid && datenaissance.touched}">
+          <input type="text" class="form-control" placeholder="Lieu de Naissance" [(ngModel)]="newUser.lieunais" name="lieunaissance" required #lieunaissance="ngModel" [ngClass]="{'is-invalid': lieunaissance.invalid && lieunaissance.touched}">
+
+          <input type="password" class="form-control" placeholder="Password" [(ngModel)]="newUser.password" name="password" required minlength="8" #password="ngModel" [ngClass]="{'is-invalid': password.invalid && password.touched}">
+          <div *ngIf="password.invalid && password.touched" class="invalid-feedback">Mot de passe doit être d'au moins 8 caractères.</div>
+
+          <input type="password" class="form-control" placeholder="Please confirm your password" [(ngModel)]="confirmPassword" name="Confirmingpassword" required [class.is-invalid]="confirmPassword !== newUser.password && signUpForm.submitted">
+          <div *ngIf="confirmPassword !== newUser.password && signUpForm.submitted" class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
+        </div>
+
+        <div class="recaptcha-container">
+          <re-captcha (resolved)="resolved($event!)" siteKey="6LcL08UpAAAAACqIwpE_30W9BzvlXvlc0QJbyX89"></re-captcha>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!signUpForm.valid || !captcha || !selectedFile">Sign Up</button>
+        <div class="form-footer">
+          <div class="forgot-password">
+            <a href="#">Forgot Password?</a>
+          </div>
+          <div class="account-signin">
+            <p>Already have an account? <a href="/login">Sign In</a></p>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-</body>
-</html>
+</div>

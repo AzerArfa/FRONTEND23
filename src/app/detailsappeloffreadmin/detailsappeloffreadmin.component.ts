@@ -15,6 +15,7 @@ export class DetailsappeloffreadminComponent implements OnInit {
   currentAppelOffre: AppelOffre = new AppelOffre();
   currentEntreprise: Entreprise = new Entreprise();
   offres: Offre[] = [];
+  entrepriseNames: Map<string, string> = new Map();
 
   constructor(private activatedRoute: ActivatedRoute, 
               private appelOffreService: AppeloffreService,
@@ -36,17 +37,36 @@ export class DetailsappeloffreadminComponent implements OnInit {
       error => console.error('Error loading appel offre data:', error)
     );
   }
-loadCurrentEntreprise(entrepriseId: string): void {
+
+  loadCurrentEntreprise(entrepriseId: string): void {
     this.userService.getEntrepriseById(entrepriseId).subscribe(
       entreprise => this.currentEntreprise = entreprise,
       error => console.error('Error loading entreprise data:', error)
     );
   }
+
   loadOffres(appelOffreId: string): void {
     this.appelOffreService.getOffresByappeloffresidadmin(appelOffreId).subscribe(
-      offres => this.offres = offres,
+      offres => {
+        this.offres = offres;
+        this.loadEnterpriseNames();
+      },
       error => console.error('Error loading offers:', error)
     );
+  }
+
+  loadEnterpriseNames(): void {
+    const enterpriseIds = new Set(this.offres.map(offre => offre.entrepriseid));
+    enterpriseIds.forEach(id => {
+      this.userService.getEntrepriseById(id).subscribe(
+        entreprise => this.entrepriseNames.set(id, entreprise.name),
+        error => console.error(`Error loading enterprise data for ID ${id}:`, error)
+      );
+    });
+  }
+
+  getEnterpriseName(id: string): string {
+    return this.entrepriseNames.get(id) || 'Loading...';
   }
 
   downloadDocument(offreId: string): void {
@@ -54,7 +74,7 @@ loadCurrentEntreprise(entrepriseId: string): void {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'OffreTelechargé.pdf';  
+      link.download = 'OffreTelechargé.pdf';
       document.body.appendChild(link);
       link.click();
       window.URL.revokeObjectURL(url);
@@ -62,5 +82,24 @@ loadCurrentEntreprise(entrepriseId: string): void {
     }, error => {
       console.error('Download failed:', error);
     });
+  }
+  private handleDocumentDownload(blob: Blob): void {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'AppelOffreTélechargé.pdf';  // You can set the default file name for download
+    document.body.appendChild(link);
+    link.click();
+    window.URL.revokeObjectURL(url);
+    link.remove();
+  }
+  downloadDocumentAppelOffre(appeloffreid: string): void {
+   
+      this.appelOffreService.downloadDocumentAppelOffreAdmin(appeloffreid).subscribe(blob => {
+        this.handleDocumentDownload(blob);
+      }, error => {
+        console.error('Admin Download failed:', error);
+      });
+    
   }
 }
